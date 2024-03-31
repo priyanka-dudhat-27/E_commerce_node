@@ -1,6 +1,7 @@
 const mongoose=require('mongoose');
 const multer=require('multer');
 const path=require('path');
+const { stringify } = require('querystring');
 const imgPath='/uploads/admins'
 const adminSchema=mongoose.Schema({
     name:{
@@ -38,8 +39,17 @@ const adminSchema=mongoose.Schema({
     status:{
         type:Boolean,
         required:true,
+    },
+    created_date:{
+        type:String,
+        required:true,
+    },
+    updated_date:{
+        type:String,
+        required:false,
     }
 });
+
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
         cb(null,path.join(__dirname,'..',imgPath));
