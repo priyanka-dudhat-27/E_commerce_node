@@ -44,10 +44,6 @@ const adminSchema=mongoose.Schema({
         type:String,
         required:true,
     },
-    updated_date:{
-        type:String,
-        required:false,
-    }
 });
 
 const storage=multer.diskStorage({

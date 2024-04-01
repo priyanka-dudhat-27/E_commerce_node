@@ -3,6 +3,10 @@ const app=express();
 const dotenv=require('dotenv').config();
 const port=process.env.PORT || 3000;
 const path=require('path')
+const passport = require('passport'); 
+const session=require('express-session')
+const passportLocal=require('./config/passportLocal');
+
 const mongoose=require('mongoose')
 mongoose.connect(process.env.MONGODB_URL,{
     useNewUrlParser:true,
@@ -18,6 +22,20 @@ app.use(express.urlencoded({extended:true}));
 
 app.use(express.static(path.join(__dirname,'assets')))
 app.use('/uploads',express.static(path.join(__dirname,'uploads')))
+
+app.use(session({
+    name:'RnW',
+    secret:'abc',
+    resave:true,
+    saveUninitialized:true,
+    cookie:{
+        maxAge:1000*100*60
+    }
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(passport.setAuth);
 
 app.use('/',require('./routes'))
 

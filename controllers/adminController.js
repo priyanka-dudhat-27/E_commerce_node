@@ -3,11 +3,36 @@ const path = require("path");
 const fs = require("fs");
 const moment = require("moment");
 
+module.exports.login = async (req, res) => {
+  try {
+    if (req.isAuthenticated()) {
+      return res.redirect("/admin/dashboard");
+    }
+    return res.render("login");
+  } catch (err) {
+    console.log(err);
+    return res.redirect("back");
+  }
+};
+module.exports.signIn = async (req, res) => {
+  try {
+    console.log(req.body);
+    if (req.user) {
+      return res.redirect("/admin/dashboard");
+    } else {
+      return res.redirect("back");
+    }
+  } catch (error) {
+    console.log(error);
+    return res.redirect("back");
+  }
+};
 module.exports.dashboard = async (req, res) => {
   try {
     return res.render("dashboard");
   } catch (error) {
     console.log(error);
+    return res.redirect("back");
   }
 };
 module.exports.add_admin = async (req, res) => {
@@ -15,6 +40,7 @@ module.exports.add_admin = async (req, res) => {
     return res.render("add_admin");
   } catch (error) {
     console.log(error);
+    return res.redirect("back");
   }
 };
 module.exports.view_admin = async (req, res) => {
@@ -61,8 +87,8 @@ module.exports.view_admin = async (req, res) => {
       currentPage: page,
       per_page: per_page,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return res.redirect("back");
   }
 };
@@ -87,9 +113,9 @@ module.exports.insert_admin = async (req, res) => {
       console.log("something is wrong!");
       return res.redirect("/admin/add_admin");
     }
-  } catch (err) {
-    console.log(err);
-    return res.redirect("/admin/add_admin");
+  } catch (error) {
+    console.log(error);
+    return res.redirect("back");
   }
 };
 module.exports.deleteRecord = async (req, res) => {
@@ -145,8 +171,8 @@ module.exports.edit_admin = async (req, res) => {
     }
     await Admin.findByIdAndUpdate(req.params.id, req.body);
     return res.redirect("/admin/view_admin");
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return res.redirect("back");
   }
 };
@@ -165,46 +191,98 @@ module.exports.deleteMultiple = async (req, res) => {
       // req.flash('error','something wrong');
       return res.redirect("back");
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
+    return res.redirect("back");
   }
 };
 
 // ative & deactive
 module.exports.deactive = async (req, res) => {
+  try {
+    let adminDeactive = await Admin.findByIdAndUpdate(req.params.id, {
+      status: false,
+    });
+    if (adminDeactive) {
+      // req.flash("success", "Admin deactivated successfully");
+      return res.redirect("/admin/view_admin");
+    } else {
+      req.flash("error", "something wrong");
+      return res.redirect("back");
+    }
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "something wrong");
+    return res.redirect("back");
+  }
+};
+module.exports.active = async (req, res) => {
+  try {
+    let adminActive = await Admin.findByIdAndUpdate(req.params.id, {
+      status: true,
+    });
+    if (adminActive) {
+      // req.flash("success", "Admin activated successfully");
+      return res.redirect("/admin/view_admin");
+    } else {
+      req.flash("error", "something wrong");
+      return res.redirect("back");
+    }
+  } catch (error) {
+    console.log(error);
+    return res.redirect("back");
+  }
+};
+module.exports.profile = async (req, res) => {
+  try {
+    return res.render("profile");
+  } catch (error) {
+    console.log(error);
+    return res.redirect("back");
+  }
+};
+// change password
+module.exports.change_password = async (req, res) => {
+  try {
+    return res.render("change_password", {
+      adminData: req.user,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.redirect("back");
+  }
+};
+module.exports.resetPass = async (req, res) => {
     try {
-      let adminDeactive = await Admin.findByIdAndUpdate(req.params.id, {
-        status: false,
-      });
-      if (adminDeactive) {
-        // req.flash("success", "Admin deactivated successfully");
-        return res.redirect("/admin/view_admin");
+      console.log(req.body);
+      if (req.body.cpass == req.user.password) {
+        if (req.body.cpass != req.body.npass) {
+          if (req.body.npass == req.body.conpass) {
+            let changed = await Admin.findByIdAndUpdate(req.user.id, {
+              password: req.body.npass,
+            });
+            if (changed) {
+            //   req.flash("success", "Password Changed Successfully");
+              return res.redirect("/admin/logout");
+            } else {
+              req.flash("error", "Password not change");
+              return res.redirect("back");
+            }
+          } else {
+            // req.flash("error", "New and confirm password not same");
+            return res.redirect("back");
+          }
+        } else {
+        //   req.flash("error", "Current and New password are same");
+          return res.redirect("back");
+        }
       } else {
-        req.flash("error", "something wrong");
+        // req.flash("error", "db password not match");
         return res.redirect("back");
       }
     } catch (err) {
       console.log(err);
-      req.flash("error", "something wrong");
+    //   req.flash("error", "something wrong");
       return res.redirect("back");
     }
   };
-  module.exports.active = async (req, res) => {
-    try {
-      let adminActive = await Admin.findByIdAndUpdate(req.params.id, {
-        status: true,
-      });
-      if (adminActive) {
-        // req.flash("success", "Admin activated successfully");
-        return res.redirect("/admin/view_admin");
-      } else {
-        req.flash("error", "something wrong");
-        return res.redirect("back");
-      }
-    } catch (err) {
-      console.log(err);
-      req.flash("error", "something wrong");
-      return res.redirect("back");
-    }
-  };
-  

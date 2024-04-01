@@ -221,23 +221,23 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="" alt="John Doe" />
+                                            <img src="<%=locals.admin.image%>" alt="John Doe" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#"> john</a>
+                                            <a class="js-acc-btn" href="#"><%=locals.admin.name%></a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="" alt="profile-image" />
+                                                        <img src="<%=locals.admin.image%>" alt="profile-image" />
                                                     </a>
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#">john</a>
+                                                        <a href="#"><%=locals.admin.name%></a>
                                                     </h5>
-                                                    <span class="email">john@gmail.com</span>
+                                                    <span class="email"><%=locals.admin.email%></span>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">
@@ -246,12 +246,8 @@
                                                         <i class="zmdi zmdi-account"></i>Profile</a>
                                                 </div>
                                                 <div class="account-dropdown__item">
-                                                    <a href="/admin/password">
+                                                    <a href="/admin/changePass">
                                                         <i class="zmdi zmdi-settings"></i>Change Password</a>
-                                                </div>
-                                                <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-money-box"></i>Billing</a>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer">
