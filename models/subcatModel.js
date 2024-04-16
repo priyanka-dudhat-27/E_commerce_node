@@ -25,4 +25,4 @@ const subCatSchema=mongoose.Schema({
 })
 
 const SubCategory=mongoose.model('SubCategory',subCatSchema);
-module.exports=subCatSchema;
+module.exports=SubCategory;
