@@ -24,7 +24,7 @@
             <div>
               <%if(currentPage!=0){%>
               <a
-                href="/admin/view_admin/?page=<%=currentPage-1%>&search=<%=search%>"
+                href="/admin/category/view_category?page=<%=currentPage-1%>&search=<%=search%>"
                 class="btn btn-info text-white"
                 >Prev</a
               >
@@ -34,7 +34,7 @@
               </a>
               <%var next=parseInt(currentPage)+1; if(next!=totalpage){%>
               <a
-                href="/admin/view_admin/?page=<%=next%>&search=<%=search%>"
+                href="/admin/category/view_category/?page=<%=next%>&search=<%=search%>"
                 class="btn btn-info"
                 >next</a
               >
@@ -42,7 +42,7 @@
             </div>
           </div>
           <!-- DATA TABLE-->
-          <form action="/admin/deleteMultiple" method="post">
+          <form action="/admin/category/deleteMultiple" method="post">
             <div class="table-responsive m-b-40">
               <table class="table table-borderless table-striped table-earning">
                 <thead>
@@ -53,66 +53,49 @@
                         <i class="fa fa-trash text-info"></i>
                       </button>
                     </th>
-                    <th>no</th>
-                    <th>name</th>
-                    <th>email</th>
-                    <th>gender</th>
-                    <th>hobby</th>
-                    <th>city</th>
-                    <th>message</th>
+                    <th>No</th>
+                    <th>Category</th>
                     <th>created_date</th>
-                    <th>image</th>
+                    <th>updated_date</th>
                     <th>status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <%var no=currentPage*per_page+1;for(let ad of adminRecord){%>
+                  <%var no=currentPage*per_page+1;for(let ad of catData){%>
                   <tr>
                     <td>
                       <input
                         type="checkbox"
-                        name="adminIds[]"
+                        name="catIds[]"
                         value="<%=ad.id%>"
                       />
                     </td>
                     <td><%=no++%></td>
-                    <td class="text-capitalize"><%=ad.name%></td>
-                    <td><%=ad.email%></td>
-                    <td class="text-capitalize"><%=ad.gender%></td>
-                    <td class="text-capitalize"><%=ad.hobby%></td>
-                    <td class="text-capitalize"><%=ad.city%></td>
-                    <td class="text-capitalize"><%=ad.message%></td>
-                    <td><%=ad.created_date%></td>
-                    <td>
-                      <img
-                        src="<%=ad.image%>"
-                        height="100px"
-                        width="100px"
-                        alt=""
-                      />
-                    </td>
+                    <td class="text-capitalize"><%=ad.category_name%></td>
+                    <td class="text-capitalize"><%=ad.created_date%></td>
+                    <td class="text-capitalize"><%=ad.updated_date%></td>
                     <% if(ad.status){%>
                     <td>
                       <a
-                        href="/admin/deactive/<%=ad.id%>"
+                        href="/admin/category/deactive/<%=ad.id%>"
                         class="btn btn-success"
                         >Active</a
                       >
                     </td>
                     <%}else{%>
                     <td>
-                      <a href="/admin/active/<%=ad.id%>" class="btn btn-danger"
+                      <a href="/admin/category/active/<%=ad.id%>" class="btn btn-danger"
                         >Deactive</a
                       >
                     </td>
                     <%}%>
                     <td>
-                      <a href="/admin/deleteRecord/<%=ad.id%>"
+                      <a href="/admin/category/deleteRecord/<%=ad.id%>"
                         ><i class="fa fa-trash text-danger"></i
                       ></a>
                       ||
-                      <a href="/admin/updateRecord/<%=ad.id%>"
+                      <a href="/admin/category/updateRecord/<%=ad.id%>"
                         ><i class="fa fa-edit text-"></i
                       ></a>
                     </td>

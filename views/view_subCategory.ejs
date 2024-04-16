@@ -1,0 +1,40 @@
+<%-include('header')%>
+<!-- MAIN CONTENT-->
+<div class="main-content">
+  <div class="section__content section__content--p30">
+    <div class="container-fluid">
+      <div class="row m-t-30">
+        <div class="col-md-12">
+         
+          <!-- DATA TABLE-->
+          <form action="/admin/category/deleteMultiple" method="post">
+            <div class="table-responsive m-b-40">
+              <table class="table table-borderless table-striped table-earning">
+                <thead>
+                  <tr>
+                    <th>
+                      <input type="checkbox" id="checkAll" />
+                      <button type="submit">
+                        <i class="fa fa-trash text-info"></i>
+                      </button>
+                    </th>
+                    <th>No</th>
+                    <th>subCategory</th>
+                    <th>created_date</th>
+                    <th>updated_date</th>
+                    <th>status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                
+              </table>
+            </div>
+          </form>
+          <!-- END DATA TABLE-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%-include('footer')%>
+

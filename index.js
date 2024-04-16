@@ -6,6 +6,8 @@ const path=require('path')
 const passport = require('passport'); 
 const session=require('express-session')
 const passportLocal=require('./config/passportLocal');
+const connectFlash=require('connect-flash')
+const customFlash=require('./config/customFlash')
 
 const mongoose=require('mongoose')
 mongoose.connect(process.env.MONGODB_URL,{
@@ -36,6 +38,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.setAuth);
+
+app.use(connectFlash());
+app.use(customFlash.setFlash);
 
 app.use('/',require('./routes'))
 
